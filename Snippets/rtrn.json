@@ -1,0 +1,6 @@
+{
+  "id": "8c090111-2fab-4578-a4a0-d0adcbe1fadf",
+  "prefix": "rtrn",
+  "description": "Rollback transaction",
+  "body": "ROLLBACK TRANSACTION "
+}
