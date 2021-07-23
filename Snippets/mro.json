@@ -1,0 +1,6 @@
+{
+  "id": "9d71f4b4-87a5-48e5-ac47-b4eaa1f7d304",
+  "prefix": "mro",
+  "description": "Retrieve 20 most recently created objects",
+  "body": "\r\n        -- NOTE: 'sys.objects'/'create_date' is only available in SQL Server 2005+. Replace with 'sysobjects'/'crdate' in SQL Server 2000.\r\nSELECT TOP (20) [name], [type], create_date\r\nFROM sys.objects\r\nORDER BY create_date DESC"
+}

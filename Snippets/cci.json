@@ -1,0 +1,20 @@
+{
+  "id": "69067acd-dd3b-4614-a5b8-60b0c8a58713",
+  "prefix": "cci",
+  "description": "Create non-unique clustered index",
+  "body": "CREATE CLUSTERED INDEX $index_name$\r\nON $owner$ ( $column$ )\r\n--WITH PAD_INDEX\r\n--    | FILLFACTOR = fillfactor\r\n--    | IGNORE_DUP_KEY\r\n--    | DROP_EXISTING\r\n--    | STATISTICS_NORECOMPUTE\r\n--    | SORT_IN_TEMPDB, .. as required\r\n-- ON filegroup\r\nGO\r\n",
+  "placeholders": [
+    {
+      "name": "owner",
+      "defaultValue": "[schema].[owner_name]"
+    },
+    {
+      "name": "column",
+      "defaultValue": ""
+    },
+    {
+      "name": "index_name",
+      "defaultValue": ""
+    }
+  ]
+}
