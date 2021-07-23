@@ -24,7 +24,13 @@
   </blockquote>
   <p><img src="https://i.postimg.cc/HLvg794t/SQLprompt-Snippets-Location-Sharing.png" title="SQLpromptSnippetsLocationSharing"/></p>
   <p>Note: Snippets are stored as XML files with the <b>.sqlpromptsnippet</b> file extension.</p>
-  <p><b>Note:</b> From SQLprompt v10.3, Snippet Files are Stored as <b>.json</b> instead of <b>.sqlpromptsnippet</b>.</p>
+  <p><b>Note:</b> From SQLprompt v10.5, Snippet Files are Stored as <b>.json</b> instead of <b>.sqlpromptsnippet</b>.</p>
+</blockquote>
+
+<blockquote>
+  <p>10.5.0.16982 - Released on 3rd December 2020</p>
+  <p> • Upgraded styles format to be compatible with the format used in the SQL Prompt ADS extension.</p>
+  <p>SQL Prompt v10.3 and later will no longer work in SQL Server Management Studio 2012 and 2014.</p>
 </blockquote>
 
 <blockquote>
