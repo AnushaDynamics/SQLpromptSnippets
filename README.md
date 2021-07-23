@@ -28,6 +28,7 @@
 </blockquote>
 
 <blockquote>
+  <p><b>SQLprompt Release Notes Highlights:</b></p>
   <p>10.5.0.16982 - Released on 3rd December 2020</p>
   <p> • Upgraded styles format to be compatible with the format used in the SQL Prompt ADS extension.</p>
   <p>10.3.0 - Released on 2nd July 2020</p>
