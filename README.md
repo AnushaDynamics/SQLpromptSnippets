@@ -30,7 +30,8 @@
 <blockquote>
   <p>10.5.0.16982 - Released on 3rd December 2020</p>
   <p> • Upgraded styles format to be compatible with the format used in the SQL Prompt ADS extension.</p>
-  <p>SQL Prompt v10.3 and later will no longer work in SQL Server Management Studio 2012 and 2014.</p>
+  <p>10.3.0 - Released on 2nd July 2020</p>
+  <p> • SQL Prompt v10.3.o and later will no longer work in SQL Server Management Studio 2012 and 2014.</p>
 </blockquote>
 
 <blockquote>
