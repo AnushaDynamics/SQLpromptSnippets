@@ -1,8 +1,9 @@
 {
-  "id": "e91dc8e7-179f-4e03-a6a4-89f451ba4439",
+  "id": "262bab01-5eb9-49d4-8c92-518bd57a847b",
+  "name": "citf",
   "prefix": "citf",
   "description": "Create inline table-valued function",
-  "body": "CREATE FUNCTION $function_name$\r\n    (@parameter_name AS INT)\r\nRETURNS TABLE\r\n--WITH ENCRYPTION|SCHEMABINDING, ...\r\nAS\r\nRETURN ( $SELECTEDTEXT$$CURSOR$ )\r\nGO\r\n",
+  "body": "CREATE FUNCTION $function_name$\n    (@parameter_name AS INT)\nRETURNS TABLE\n--WITH ENCRYPTION|SCHEMABINDING, ...\nAS\nRETURN ( $SELECTEDTEXT$$CURSOR$ )\nGO\n",
   "placeholders": [
     {
       "name": "function_name",

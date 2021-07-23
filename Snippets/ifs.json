@@ -1,8 +1,9 @@
 {
-  "id": "fe2a30fb-28af-452a-8424-9334bdc67dd1",
+  "id": "f54f59c4-51f6-48c9-b40d-8201cfbc8a3c",
+  "name": "ifs",
   "prefix": "ifs",
   "description": "IF fragment",
-  "body": "IF $condition$\r\nBEGIN\r\n    $SELECTEDTEXT$$CURSOR$\r\nEND",
+  "body": "IF $condition$\nBEGIN\n    $SELECTEDTEXT$$CURSOR$\nEND",
   "placeholders": [
     {
       "name": "condition",

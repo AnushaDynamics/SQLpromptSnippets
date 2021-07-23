@@ -1,6 +1,8 @@
 {
-  "id": "1fda20c9-2aec-48a2-8eac-bda40f2b4c4b",
+  "id": "07374c16-2bc4-4a7c-8f6e-9a7772d9ea5d",
+  "name": "fj",
   "prefix": "fj",
   "description": "FULL JOIN fragment",
-  "body": "FULL JOIN "
+  "body": "FULL JOIN ",
+  "placeholders": []
 }

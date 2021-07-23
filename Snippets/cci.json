@@ -1,8 +1,9 @@
 {
-  "id": "69067acd-dd3b-4614-a5b8-60b0c8a58713",
+  "id": "b79ccb28-b13c-4356-bff3-52098d783411",
+  "name": "cci",
   "prefix": "cci",
   "description": "Create non-unique clustered index",
-  "body": "CREATE CLUSTERED INDEX $index_name$\r\nON $owner$ ( $column$ )\r\n--WITH PAD_INDEX\r\n--    | FILLFACTOR = fillfactor\r\n--    | IGNORE_DUP_KEY\r\n--    | DROP_EXISTING\r\n--    | STATISTICS_NORECOMPUTE\r\n--    | SORT_IN_TEMPDB, .. as required\r\n-- ON filegroup\r\nGO\r\n",
+  "body": "CREATE CLUSTERED INDEX $index_name$\nON $owner$ ( $column$ )\n--WITH PAD_INDEX\n--    | FILLFACTOR = fillfactor\n--    | IGNORE_DUP_KEY\n--    | DROP_EXISTING\n--    | STATISTICS_NORECOMPUTE\n--    | SORT_IN_TEMPDB, .. as required\n-- ON filegroup\nGO\n",
   "placeholders": [
     {
       "name": "owner",

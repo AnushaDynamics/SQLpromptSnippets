@@ -1,8 +1,9 @@
 {
-  "id": "02f17e49-0120-486d-a2e0-6ebaa437e632",
+  "id": "cfe027d3-ea0b-45c9-bd47-86eb3eb709b1",
+  "name": "csf",
   "prefix": "csf",
   "description": "Create scalar function",
-  "body": "CREATE FUNCTION $function_name$\r\n    (@parameter_name AS INT)\r\nRETURNS INT\r\n--WITH ENCRYPTION|SCHEMABINDING, ...\r\nAS\r\nBEGIN\r\n    RETURN $SELECTEDTEXT$$CURSOR$\r\nEND\r\nGO\r\n",
+  "body": "CREATE FUNCTION $function_name$\n    (@parameter_name AS INT)\nRETURNS INT\n--WITH ENCRYPTION|SCHEMABINDING, ...\nAS\nBEGIN\n    RETURN $SELECTEDTEXT$$CURSOR$\nEND\nGO\n",
   "placeholders": [
     {
       "name": "function_name",

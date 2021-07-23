@@ -1,5 +1,6 @@
 {
-  "id": "39b2b7ce-e02d-442d-9eac-55dbb0748790",
+  "id": "5d880080-7081-4fb5-abc3-d6bbb42d021b",
+  "name": "atdt",
   "prefix": "atdt",
   "description": "Disable trigger",
   "body": "ALTER TABLE $table_name$ DISABLE TRIGGER ",

@@ -1,6 +1,6 @@
 {
-  "id": "39d4fa5b-53d8-4bef-9b5c-63c51940fee3",
+  "id": "cbf0200b-0b1e-4de6-8e64-6cc668d2f532",
   "prefix": "st100",
-  "description": "SELECT top 100 rows",
-  "body": "SELECT TOP (100) * FROM "
+  "description": "Select Top 100 Rows",
+  "body": "SELECT TOP (100) * FROM $CURSOR$"
 }

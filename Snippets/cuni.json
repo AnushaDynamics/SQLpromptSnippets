@@ -1,8 +1,9 @@
 {
-  "id": "61418d8f-3dd0-46c4-9953-ddc0706f4fb9",
+  "id": "93217a61-ec72-44cf-9113-66b83a230cb1",
+  "name": "cuni",
   "prefix": "cuni",
   "description": "Create unique nonclustered index",
-  "body": "CREATE UNIQUE NONCLUSTERED INDEX $index_name$\r\nON $owner$ ( $column$ )\r\n--WITH PAD_INDEX\r\n--    | FILLFACTOR = fillfactor\r\n--    | IGNORE_DUP_KEY\r\n--    | DROP_EXISTING\r\n--    | STATISTICS_NORECOMPUTE\r\n--    | SORT_IN_TEMPDB, .. as required\r\n-- ON filegroup\r\nGO\r\n",
+  "body": "CREATE UNIQUE NONCLUSTERED INDEX $index_name$\nON $owner$ ( $column$ )\n--WITH PAD_INDEX\n--    | FILLFACTOR = fillfactor\n--    | IGNORE_DUP_KEY\n--    | DROP_EXISTING\n--    | STATISTICS_NORECOMPUTE\n--    | SORT_IN_TEMPDB, .. as required\n-- ON filegroup\nGO\n",
   "placeholders": [
     {
       "name": "owner",

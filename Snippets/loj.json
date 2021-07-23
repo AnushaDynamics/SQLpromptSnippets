@@ -1,6 +1,8 @@
 {
-  "id": "a0101e52-7531-44cb-9461-61ba170fc72a",
+  "id": "636d7778-166d-4eb1-951a-183563353011",
+  "name": "loj",
   "prefix": "loj",
   "description": "LEFT OUTER JOIN fragment",
-  "body": "LEFT OUTER JOIN "
+  "body": "LEFT OUTER JOIN ",
+  "placeholders": []
 }

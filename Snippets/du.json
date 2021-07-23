@@ -1,6 +1,8 @@
 {
-  "id": "9dc7f377-20c5-49ae-8ff3-26934929ca48",
+  "id": "407a5bb8-c3df-43be-87ad-3bbb7e19dedd",
+  "name": "du",
   "prefix": "du",
   "description": "Drop user",
-  "body": "DROP USER "
+  "body": "DROP USER ",
+  "placeholders": []
 }

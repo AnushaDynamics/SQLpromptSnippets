@@ -1,6 +1,8 @@
 {
-  "id": "6262e5ee-8e7f-4454-a32e-b2b136ffadbf",
+  "id": "90826a06-43c0-4d18-bde9-3137ac01a0ac",
+  "name": "cl",
   "prefix": "cl",
   "description": "CREATE SQL Server login",
-  "body": "CREATE LOGIN $CURSOR$ /* Add WITH or FROM (below) as appropriate */\r\n--WITH\r\n--  PASSWORD = 'password' /* HASHED */ /* MUST CHANGE */\r\n--  SID = sid\r\n--  DEFAULT_DATABASE = database\r\n--  DEFAULT_LANGUAGE = language\r\n--  CHECK_EXPIRATION = ON | OFF\r\n--  CHECK_POLICY = ON | OFF\r\n--  CREDENTIAL = credential_name\r\n--FROM\r\n--  WINDOWS\r\n--    WITH\r\n--      DEFAULT_DATABASE = database\r\n--      DEFAULT_LANGUAGE = language\r\n--  CERTIFICATE certificate_name\r\n--  ASYMMETRIC KEY key_name\r\nGO\r\n"
+  "body": "CREATE LOGIN $CURSOR$ /* Add WITH or FROM (below) as appropriate */\n--WITH\n--  PASSWORD = 'password' /* HASHED */ /* MUST CHANGE */\n--  SID = sid\n--  DEFAULT_DATABASE = database\n--  DEFAULT_LANGUAGE = language\n--  CHECK_EXPIRATION = ON | OFF\n--  CHECK_POLICY = ON | OFF\n--  CREDENTIAL = credential_name\n--FROM\n--  WINDOWS\n--    WITH\n--      DEFAULT_DATABASE = database\n--      DEFAULT_LANGUAGE = language\n--  CERTIFICATE certificate_name\n--  ASYMMETRIC KEY key_name\nGO\n",
+  "placeholders": []
 }

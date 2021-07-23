@@ -1,8 +1,9 @@
 {
-  "id": "c50024dd-bd65-41e7-b110-99205c29f6cd",
+  "id": "b7bf0909-b285-42fa-905f-12b97683ad02",
+  "name": "clrp",
   "prefix": "clrp",
   "description": "Create CLR stored procedure",
-  "body": "--SET QUOTED_IDENTIFIER ON|OFF\r\n--SET ANSI_NULLS ON|OFF\r\n--GO\r\n\r\nCREATE PROCEDURE $procedure_name$\r\n(\r\n    @parameter_name AS INT\r\n)\r\n-- WITH EXECUTE AS CALLER|SELF|OWNER| 'user_name'\r\nAS EXTERNAL NAME $external_name$\r\nGO\r\n\r\n--SET QUOTED_IDENTIFIER ON|OFF\r\n--SET ANSI_NULLS ON|OFF\r\n--GO",
+  "body": "--SET QUOTED_IDENTIFIER ON|OFF\n--SET ANSI_NULLS ON|OFF\n--GO\n\nCREATE PROCEDURE $procedure_name$\n(\n    @parameter_name AS INT\n)\n-- WITH EXECUTE AS CALLER|SELF|OWNER| 'user_name'\nAS EXTERNAL NAME $external_name$\nGO\n\n--SET QUOTED_IDENTIFIER ON|OFF\n--SET ANSI_NULLS ON|OFF\n--GO",
   "placeholders": [
     {
       "name": "external_name",

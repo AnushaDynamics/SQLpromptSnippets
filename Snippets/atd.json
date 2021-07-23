@@ -1,5 +1,6 @@
 {
-  "id": "a2e5885a-e0cf-4f4d-b84d-f5d45f1ef87a",
+  "id": "b6d07dc3-ddae-4590-842b-fa3ca0ac9f87",
+  "name": "atd",
   "prefix": "atd",
   "description": "Drop column",
   "body": "ALTER TABLE $table_name$ DROP COLUMN ",

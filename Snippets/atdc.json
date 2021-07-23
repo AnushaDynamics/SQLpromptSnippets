@@ -1,5 +1,6 @@
 {
-  "id": "c8080c80-3491-4144-96cc-c7717d72704c",
+  "id": "97bbbf98-f443-4a0a-a600-6a720e7425df",
+  "name": "atdc",
   "prefix": "atdc",
   "description": "Drop constraint",
   "body": "ALTER TABLE $table_name$ DROP CONSTRAINT ",

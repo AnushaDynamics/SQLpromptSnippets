@@ -1,5 +1,6 @@
 {
-  "id": "55305b73-6e5e-4606-afd9-333d9bdf958f",
+  "id": "ab79500a-b7a3-4804-8a22-e8eece537899",
+  "name": "df",
   "prefix": "df",
   "description": "DELETE FROM fragment",
   "body": "DELETE FROM $table_name$ WHERE $CURSOR$",
