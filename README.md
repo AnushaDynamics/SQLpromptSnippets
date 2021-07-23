@@ -39,7 +39,7 @@
   <p><b>How to Restore the Default Snippets Path.?</b></p>
   <li>To restore the snippets folder to the SQL Prompt default location, click the "<b>Restore default</b> [6]" and then Click "<b>OK</b> [5]". This also adds any missing default snippets back into the folder.</li>
   <li>When you restore the default snippets, your custom snippets aren't removed and any changes you've made to default snippets aren't overwritten.</li>
-  <li>Default Snippets Path: "<b>C:\Users\[UserName]\AppData\Local\Red Gate\SQL Prompt 10\Snippets</b>"</li>
+  <li>Default Snippets Path: "<b>C:\Users\%UserName%\AppData\Local\Red Gate\SQL Prompt 10\Snippets</b>"</li>
 </blockquote>
 
 <blockquote>
