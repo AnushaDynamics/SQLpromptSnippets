@@ -1,9 +1,11 @@
 /* =====================================================================================================================
--- Author:      SaiKarthik
--- Create date: 25-10-2020 19:40
--- Database:    USE master;
--- Description: This Script Rename the Files in the @Folder_Path.
--- Usage:		Change the @Folder_Path where ".json" files are stored.
+-- Author		: SaiKarthik
+-- Create date	: 25-10-2020
+-- Database		: USE master
+-- Script		: Trimming(ReName) Snippet FileNames to Remove GUID.sql
+-- Description	: This Script Rename the ".json" Files in the Snippets Folder which are being AutoRenamed by SQLprompt.
+--				  So, To Rename the ".json" Files to Default File Names by Removing the PostFixed GUID in the FileName.
+-- Usage		: Change the @Folder_Path where ".json" files are stored.
 ===================================================================================================================== */
 USE master;
 GO
