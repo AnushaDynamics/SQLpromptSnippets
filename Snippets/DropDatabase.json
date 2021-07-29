@@ -1,9 +1,8 @@
 {
   "id": "b76f1e09-d700-4654-a844-36c2d111d35b",
-  "name": "DropDatabase",
   "prefix": "DropDatabase",
   "description": "Drop Database If Already Exists",
-  "body": "IF EXISTS (SELECT name FROM sys.databases WHERE name = '$database_name$')\nBEGIN\n\tUSE master;\n\t--#BeginRegion: Killing Sessions\n\tDECLARE @KillSPIDs NVARCHAR(4000) = N'';\n\tSELECT @KillSPIDs = @KillSPIDs + CHAR(10) + N'Kill ' + CONVERT(VARCHAR(5), DMES.session_id) + N';' + N' --For SPID in \"' + DBs.name + N'\"'\n\tFROM sys.dm_exec_sessions AS DMES\n\tINNER JOIN sys.databases AS DBs ON DMES.database_id = DBs.database_id\n\tWHERE DMES.session_id > 50 AND DBs.name = '$database_name$';\n\tPRINT @KillSPIDs;\n\tEXEC sys.sp_executesql @statement = @KillSPIDs;\n\t--#EndRegion: Killing Sessions\n\tALTER DATABASE [$database_name$] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;\n\tDROP DATABASE [$database_name$];\nEND;\nGO\n$CURSOR$",
+  "body": "IF EXISTS (SELECT name FROM sys.databases WHERE name = '$database_name$')\nBEGIN\n\tUSE master;\n\t--$BeginRegion: Kill Specific Database All Sessions\n\tDECLARE @KillSPIDs NVARCHAR(4000) = N'';\n\tSET @KillSPIDs = N'--For SPIDs in \"$database_name$\"'\n\tSELECT @KillSPIDs = @KillSPIDs + CHAR(10) + N'Kill ' + CONVERT(VARCHAR(5), session_id) + N';'\n\tFROM sys.dm_exec_sessions \n\tWHERE session_id > 50 AND database_id = DB_ID('$database_name$');\n\tPRINT @KillSPIDs;\n\tEXEC sys.sp_executesql @statement = @KillSPIDs;\n\t--$EndRegion: Kill Specific Database All Sessions\t\n\tALTER DATABASE [$database_name$] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;\n\tDROP DATABASE [$database_name$];\nEND;\nGO\n$CURSOR$",
   "placeholders": [
     {
       "name": "database_name",
