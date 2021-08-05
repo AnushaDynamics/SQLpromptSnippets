@@ -1,0 +1,20 @@
+{
+  "id": "3b6cb789-fb7d-4c70-ada7-e96653978e4c",
+  "prefix": "EmailTableStyle1",
+  "description": "DBmail with Single Table Style1",
+  "body": "DECLARE @XML NVARCHAR(MAX);\r\nDECLARE @Body NVARCHAR(MAX);\r\n\r\n--For ErrorFree, USE Same Format { ColumnName AS \"td\", '' }\r\nSET @XML = CAST((\r\n\t\t\t\t\tSELECT C.CategoryName AS \"td\", '',\r\n\t\t\t\t\t\t   P.ProductName AS \"td\", '',\r\n\t\t\t\t\t\t   P.Unit AS \"td\", '',\r\n\t\t\t\t\t\t   P.Price AS \"td\", ''\r\n\t\t\t\t\tFROM dbo.Categories AS C\r\n\t\t\t\t\tINNER JOIN dbo.Products AS P\r\n\t\t\t\t\t\tON P.CategoryID = C.CategoryID\r\n\t\t\t\t\tWHERE C.CategoryID <= 3\r\n\t\t\t\t\tORDER BY C.CategoryName ASC\r\n\t\t\t\t\tFOR XML PATH('tr'), ELEMENTS\r\n\t\t\t\t) AS NVARCHAR(MAX));\r\n\r\nSET @Body = \r\nN'<html><body><H3>Sample Table Output Style</H3>\r\n<table border = 1>\r\n<tr>\r\n\t<th bgcolor=yellow><b> CategoryName </b></th>\r\n\t<th bgcolor=yellow><b> ProductName </b></th>\r\n\t<th bgcolor=yellow><b> Unit </b></th>\r\n\t<th bgcolor=yellow><b> Price </b></th>\r\n</tr>'\r\n+ @XML\r\n+ N'</table></body></html>';\r\n\r\nEXEC msdb.dbo.sp_send_dbmail --\r\n\t@profile_name = '$MailProfile$', --Replace with your SQL Database Mail Profile \r\n\t@body = @Body,\r\n\t@body_format = 'HTML',\r\n\t@recipients = '$ReceipientMailAddress$', --Replace with Receipient Email Address\r\n\t@subject = '$EmailSubjectHere$'; --Replace with Required SubjectText",
+  "placeholders": [
+    {
+      "name": "MailProfile",
+      "defaultValue": null
+    },
+    {
+      "name": "EmailSubjectHere",
+      "defaultValue": null
+    },
+    {
+      "name": "ReceipientMailAddress",
+      "defaultValue": null
+    }
+  ]
+}
