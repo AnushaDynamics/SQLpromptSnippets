@@ -1,0 +1,6 @@
+{
+  "id": "d825bbfc-5bc0-4bba-a68d-5502bd4b7df0",
+  "prefix": "EnableCMDshell",
+  "description": "Enable xp_CMDshell",
+  "body": "-- To Turn ON Advanced Options\r\nEXEC sys.sp_configure 'show advanced options', '1';\r\nRECONFIGURE;\r\n\r\n-- To Enable xp_cmdshell\r\nEXEC sys.sp_configure 'xp_cmdshell', '1';\r\nRECONFIGURE;\r\n\r\n-- To Turn OFF Advanced Options\r\nEXEC sys.sp_configure 'show advanced options', '0';\r\nRECONFIGURE;"
+}
