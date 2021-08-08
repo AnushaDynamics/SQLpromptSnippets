@@ -1,0 +1,28 @@
+{
+  "id": "59c08bf3-42f3-4541-8da7-370d4fd5aead",
+  "prefix": "AlterFileSize",
+  "description": "Alter Database File Size and Growth",
+  "body": "USE master;\r\nGO\r\n\r\nALTER DATABASE [$DatabaseName$]\r\nMODIFY FILE (\r\n\t\t\t\tNAME = N'$LogicalFileName$',\r\n\t\t\t\tSIZE = $current_size$ KB, --{ current_size [ KB | MB | GB | TB ] }\r\n\t\t\t\tMAXSIZE =  $max_size$ KB, --{ max_size [ KB | MB | GB | TB ] | UNLIMITED } \r\n\t\t\t\tFILEGROWTH = $growth_increment$ KB --{ growth_increment [ KB | MB | GB | TB ] | % } \r\n\t\t\t);\r\nGO",
+  "placeholders": [
+    {
+      "name": "DatabaseName",
+      "defaultValue": null
+    },
+    {
+      "name": "current_size",
+      "defaultValue": null
+    },
+    {
+      "name": "max_size",
+      "defaultValue": null
+    },
+    {
+      "name": "growth_increment",
+      "defaultValue": null
+    },
+    {
+      "name": "LogicalFileName",
+      "defaultValue": null
+    }
+  ]
+}
