@@ -1,0 +1,12 @@
+{
+  "id": "a188200e-c185-4c86-9c2a-32d3449dc998",
+  "prefix": "GetAutoGrowthEventsOccured",
+  "description": "Get Database Files \"Growth and Shrink\" Events from Instance Log File",
+  "body": "DECLARE @logtrace_path NVARCHAR(260);\r\nSELECT @logtrace_path = REVERSE(SUBSTRING(REVERSE(path), CHARINDEX(CHAR(92), REVERSE(path)), 260)) + N'log.trc'\r\nFROM sys.traces WHERE is_default = 1;\r\n\r\n-- process all trace files\r\nSELECT TraceLog.StartTime,\r\n\t   TraceEvents.name AS \"EventName\",\r\n\t   DB_NAME(TraceLog.databaseid) AS \"DatabaseName\",\r\n\t   TraceLog.Filename,\r\n\t   (TraceLog.IntegerData * 8) / 1024.0 AS \"Growth(MB)\",\r\n\t   (TraceLog.duration / 1000) AS \"Duration(msec)\"\r\nFROM::fn_trace_gettable(@logtrace_path, DEFAULT) AS TraceLog\r\nINNER JOIN sys.trace_events AS TraceEvents\r\n\tON TraceLog.EventClass = TraceEvents.trace_event_id\r\nWHERE TraceLog.EventClass IN ( --\r\n\t\t\t\t\t\t\t\t 92, -- Data File Auto Expand\r\n\t\t\t\t\t\t\t\t 93, -- Log File Auto Expand\r\n\t\t\t\t\t\t\t\t 94, -- Data File Auto Shrink\r\n\t\t\t\t\t\t\t\t 95\t -- Log File Auto Shrink\r\n\t\t\t\t\t\t\t )\r\n\t  AND DB_NAME(TraceLog.databaseid) = '$DatabaseName$'\r\nORDER BY TraceLog.StartTime;",
+  "placeholders": [
+    {
+      "name": "DatabaseName",
+      "defaultValue": null
+    }
+  ]
+}
