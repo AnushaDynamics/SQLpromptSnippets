@@ -1,0 +1,6 @@
+{
+  "id": "3ac7b024-b359-45fa-aaf7-282a34852b37",
+  "prefix": "DropAutoCreatedStatistics",
+  "description": "Drop Auto Created or System Created Statistics",
+  "body": "DECLARE @SchemaName sysname,\r\n\t\t@TableName sysname,\r\n\t\t@AutoStatsName sysname;\r\nDECLARE @SQLcmd NVARCHAR(MAX) = '';\r\n\r\nDECLARE DropAutoStatsCursor CURSOR LOCAL FAST_FORWARD FOR\r\n(\r\n\tSELECT OBJECT_SCHEMA_NAME(object_id) AS SchemaName, OBJECT_NAME(object_id) AS TableName, name AS AutoStatsName\r\n\tFROM sys.stats\r\n\tWHERE OBJECT_SCHEMA_NAME(object_id) <> 'sys' --To Avoid Dropping System Statistics \r\n\t\t  AND user_created = 0 --To Avoid Dropping User Created Statistics\r\n\t\t  AND auto_created = 1 --To Consider and Drop Only Auto Created Statistics\r\n);\r\n\r\nOPEN DropAutoStatsCursor;\r\n\r\nFETCH NEXT FROM DropAutoStatsCursor INTO @SchemaName, @TableName, @AutoStatsName;\r\n\r\nWHILE @@FETCH_STATUS = 0\r\n\tBEGIN\r\n\t\tSET @SQLcmd = 'DROP STATISTICS ' + QUOTENAME(@SchemaName) + '.' + QUOTENAME(@TableName) + '.' + QUOTENAME(@AutoStatsName) + ';';\r\n\t\tEXEC sys.sp_executesql @statement = @SQLcmd;\r\n\t\tFETCH NEXT FROM DropAutoStatsCursor INTO @SchemaName, @TableName, @AutoStatsName;\r\n\tEND;\r\n\r\nCLOSE DropAutoStatsCursor;\r\nDEALLOCATE DropAutoStatsCursor;"
+}
