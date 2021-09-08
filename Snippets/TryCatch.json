@@ -2,5 +2,5 @@
   "id": "2f16ef90-2025-4861-b830-8691215b2497",
   "prefix": "TryCatch",
   "description": "TRY ... CATCH fragment",
-  "body": "BEGIN TRY\n    BEGIN TRANSACTION;\n    \t$SELECTEDTEXT$\n    COMMIT TRANSACTION;\nEND TRY\nBEGIN CATCH\n    PRINT 'Error: ' + ERROR_MESSAGE();\n    PRINT 'Transaction was Rolled Back.';\n    ROLLBACK TRANSACTION;\nEND CATCH;"
+  "body": "BEGIN TRY\n    BEGIN TRANSACTION;\n    \t$SELECTEDTEXT$\n    COMMIT TRANSACTION;\nEND TRY\nBEGIN CATCH\n\tSELECT ERROR_NUMBER() AS \"ErrorNumber\",\n\t\t   ERROR_SEVERITY() AS \"ErrorSeverity\",\n\t\t   ERROR_STATE() AS \"ErrorState\",\n\t\t   ERROR_PROCEDURE() AS \"ErrorProcedure\",\n\t\t   ERROR_MESSAGE() AS \"ErrorMessage\",\n\t\t   ERROR_LINE() AS \"ErrorLine\";\n\n\tDECLARE @ErrorMSG NVARCHAR(4000) = N'Error: ' + ERROR_MESSAGE();\n\tRAISERROR(@ErrorMSG, 0, 0) WITH NOWAIT;\n\n\tRAISERROR('Transaction was Rolled Back.', 0, 0) WITH NOWAIT;\n\n\tROLLBACK TRANSACTION;\nEND CATCH;"
 }
