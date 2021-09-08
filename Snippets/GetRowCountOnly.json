@@ -1,0 +1,6 @@
+{
+  "id": "06c61315-3060-4d71-b426-fa5461e25512",
+  "prefix": "GetRowCountOnly",
+  "description": "Get Row Count for Each Table",
+  "body": "SELECT OBJECT_SCHEMA_NAME(DDPS.object_id) AS \"SchemaName\",\r\n\t   OBJECT_NAME(DDPS.object_id) AS \"TableName\",\r\n\t   SUM(IIF((DDPS.index_id < 2), DDPS.row_count, 0)) AS \"Rows\"\r\nFROM sys.dm_db_partition_stats AS DDPS\r\nWHERE OBJECT_SCHEMA_NAME(DDPS.object_id) <> 'sys'\r\n\t--AND OBJECT_SCHEMA_NAME(DDPS.object_id) IN ( 'dbo' )\r\n\t--AND OBJECT_NAME(DDPS.object_id) IN ( 'TableName' )\r\nGROUP BY DDPS.object_id\r\n--HAVING SUM(IIF((DDPS.index_id < 2), DDPS.row_count, 0)) > 0\r\nORDER BY SchemaName, TableName ASC;"
+}
