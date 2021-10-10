@@ -2,11 +2,11 @@
   "id": "b76f1e09-d700-4654-a844-36c2d111d35b",
   "prefix": "DropDatabase",
   "description": "Drop Database If Already Exists",
-  "body": "IF EXISTS (SELECT name FROM sys.databases WHERE name = '$database_name$')\nBEGIN\n\tUSE master;\n\t--$BeginRegion: Kill Specific Database All Sessions\n\tDECLARE @KillSPIDs NVARCHAR(4000) = N'';\n\tSET @KillSPIDs = N'--For SPIDs in \"$database_name$\"'\n\tSELECT @KillSPIDs = @KillSPIDs + CHAR(10) + N'Kill ' + CONVERT(VARCHAR(5), session_id) + N';'\n\tFROM sys.dm_exec_sessions \n\tWHERE session_id > 50 AND database_id = DB_ID('$database_name$');\n\tPRINT @KillSPIDs;\n\tEXEC sys.sp_executesql @statement = @KillSPIDs;\n\t--$EndRegion: Kill Specific Database All Sessions\t\n\tALTER DATABASE [$database_name$] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;\n\tDROP DATABASE [$database_name$];\nEND;\nGO\n$CURSOR$",
+  "body": "/*Method 1*/\nUSE master;\nGO\nDECLARE @DBname VARCHAR(50) = '$database_name$';\nIF EXISTS (SELECT name FROM sys.databases WHERE name = @DBname)\nBEGIN\n\t--$BeginRegion: Kill Specific Database All Sessions\n\tPRINT N'--KILLING SPIDs in \"' + @DBname + '\"';\n\tDECLARE @KillSPIDs NVARCHAR(MAX);\n\tSELECT @KillSPIDs = COALESCE(@KillSPIDs, '') + 'KILL ' + CONVERT(VARCHAR(8), session_id) + ';'\n\tFROM master.sys.dm_exec_sessions\n\tWHERE session_id > 50 AND session_id <> @@SPID AND database_id = DB_ID(@DBname);\n\t--PRINT @KillSPIDs\n\tEXEC sys.sp_executesql @command = @KillSPIDs;\n\t--$EndRegion: Kill Specific Database All Sessions\n\t--\n\tDECLARE @SQLcmd NVARCHAR(MAX);\n\tSET @SQLcmd = 'ALTER DATABASE [' + @DBname + '] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;';\n\tEXEC sys.sp_executesql @command = @SQLcmd;\n\tSET @SQLcmd = 'DROP DATABASE [' + @DBname + ']';\n\tEXEC sys.sp_executesql @command = @SQLcmd;\nEND;\nGO\n--\n--\n/*Method 2*/\nWHILE EXISTS (SELECT NULL FROM sys.databases WHERE name = '$database_name$')\nBEGIN\n\tUSE master;\n\t--$BeginRegion: Kill Specific Database All Sessions\n\tPRINT N'--KILLING SPIDs in \"$database_name$\"';\n\tDECLARE @KillSPIDs NVARCHAR(MAX) = N'';\n\tSELECT @KillSPIDs = @KillSPIDs + CHAR(10) + N'Kill ' + CONVERT(VARCHAR(5), spid) + N';'\n\tFROM master.sys.sysprocesses\n\tWHERE spid > 50 AND  spid <> @@SPId AND dbid = DB_ID('$database_name$');\n\tPRINT @KillSPIDs;\n\tEXEC sys.sp_executesql @statement = @KillSPIDs;\n\t--$EndRegion: Kill Specific Database All Sessions\t\n\tALTER DATABASE [$database_name$] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;\n\tDROP DATABASE [$database_name$];\nEND;\nGO\n",
   "placeholders": [
     {
       "name": "database_name",
-      "defaultValue": ""
+      "defaultValue": null
     }
   ]
 }
