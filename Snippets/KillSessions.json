@@ -2,7 +2,7 @@
   "id": "211255b3-483a-4529-989a-53c1f4d3736c",
   "prefix": "KillSessions",
   "description": "Kill Specific Database All Sessions",
-  "body": "--$BeginRegion: Kill Specific Database All Sessions\r\nDECLARE @KillSPIDs NVARCHAR(MAX) = N'';\r\nSET @KillSPIDs = N'--For SPIDs in \"$database_name$\"'\r\nSELECT @KillSPIDs = @KillSPIDs + CHAR(10) + N'Kill ' + CONVERT(VARCHAR(5), session_id) + N';'\r\nFROM sys.dm_exec_sessions \r\nWHERE session_id > 50 AND session_id <> @@SPID AND DB_NAME(database_id) = '$database_name$';\r\n--PRINT @KillSPIDs;\r\nEXEC sys.sp_executesql @statement = @KillSPIDs;\r\n--$EndRegion: Kill Specific Database All Sessions",
+  "body": "--$BeginRegion: Kill Specific Database All Sessions\r\nPRINT N'--KILLING SPIDs in \"$database_name$\"'\r\nDECLARE @KillSPIDs NVARCHAR(MAX) = N'';\r\nSELECT @KillSPIDs = @KillSPIDs + CHAR(10) + N'Kill ' + CONVERT(VARCHAR(5), session_id) + N';'\r\nFROM sys.dm_exec_sessions \r\nWHERE session_id > 50 AND session_id <> @@SPID AND DB_NAME(database_id) = '$database_name$';\r\n--PRINT @KillSPIDs;\r\nEXEC sys.sp_executesql @statement = @KillSPIDs;\r\n--$EndRegion: Kill Specific Database All Sessions",
   "placeholders": [
     {
       "name": "database_name",
