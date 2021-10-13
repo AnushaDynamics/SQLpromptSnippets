@@ -10,7 +10,8 @@
 <blockquote>
   <p><b>How to Configure SQL Prompt Snippets.?</b></p>
   <li>Clone the "SQLpromptSnippets" from GitHub to Local Folder.</li>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For Example: "<b>C:\GitHub\SQLpromptSnippets</b>".
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For Example: Navigate to Folder "<b>C:\GitHub\SQLpromptSnippets</b>" and Open "<b>Git Bash</b>".
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"<b>git clone https://github.com/ChandraSaiKarthik/SQLpromptSnippets.git</b>"
   <li>Open SSMS; In the SSMS Menu Bar, Click <b>SQL Prompt</b> → <b>Options</b>.</li>
   <blockquote>
   <ol>
