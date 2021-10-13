@@ -1,0 +1,21 @@
+{
+  "id": "97bbbf98-f443-4a0a-a600-6a720e7425df",
+  "name": "DropForeignKey",
+  "prefix": "DropForeignKey",
+  "description": "Drop ForeignKey Constraint If Already Exists",
+  "body": "IF OBJECT_ID('$foreignkey_constraint_name$', 'F') IS NOT NULL\r\n\tALTER TABLE $schema_name$.$table_name$ DROP CONSTRAINT $foreignkey_constraint_name$;\r\nGO",
+  "placeholders": [
+    {
+      "name": "table_name",
+      "defaultValue": ""
+    },
+    {
+      "name": "foreignkey_constraint_name",
+      "defaultValue": null
+    },
+    {
+      "name": "schema_name",
+      "defaultValue": null
+    }
+  ]
+}
