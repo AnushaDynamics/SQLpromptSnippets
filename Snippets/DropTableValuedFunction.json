@@ -3,7 +3,7 @@
   "name": "DropTableValuedFunction",
   "prefix": "DropTableValuedFunction",
   "description": "Drop TableValuedFunction If Already Exists",
-  "body": "IF OBJECT_ID('$schema_name$.$TableValuedFunction_name$', 'TF') IS NOT NULL\n\tDROP TABLE $schema_name$.$TableValuedFunction_name$;\nGO\n\n$CURSOR$",
+  "body": "IF OBJECT_ID('$schema_name$.$TableValuedFunction_name$', 'TF') IS NOT NULL\n\tDROP FUNCTION $schema_name$.$TableValuedFunction_name$;\nGO\n\n$CURSOR$",
   "placeholders": [
     {
       "name": "schema_name",
