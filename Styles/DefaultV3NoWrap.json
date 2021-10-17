@@ -1,0 +1,85 @@
+{
+  "metadata": {
+    "id": "e33fcd74-1f3a-4118-b5f1-498d9b561521",
+    "name": "DefaultV3NoWrap"
+  },
+  "whitespace": {
+    "spacesOrTabs": "tabsIfPossible",
+    "wrapLongLines": false,
+    "newLines": {
+      "preserveExistingEmptyLinesBetweenStatements": false,
+      "preserveExistingEmptyLinesAfterBatchSeparator": false
+    }
+  },
+  "lists": {
+    "placeSubsequentItemsOnNewLines": "ifLongerThanMaxLineLength",
+    "alignItemsAcrossClauses": false,
+    "alignComments": true
+  },
+  "parentheses": {
+    "parenthesisStyle": "expandedSimple",
+    "indentParenthesesContents": true,
+    "collapseParenthesesShorterThan": 75
+  },
+  "casing": {
+    "reservedKeywords": "uppercase",
+    "builtInFunctions": "uppercase",
+    "builtInDataTypes": "uppercase",
+    "useObjectDefinitionCase": true
+  },
+  "dml": {
+    "collapseStatementsShorterThan": 75,
+    "collapseShortSubqueries": true,
+    "collapseSubqueriesShorterThan": 75
+  },
+  "ddl": {
+    "parenthesisStyle": "expandedToStatement",
+    "indentParenthesesContents": true,
+    "placeConstraintsOnNewLines": true,
+    "placeConstraintColumnsOnNewLines": "ifLongerOrMultipleColumns",
+    "collapseShortStatements": true,
+    "collapseStatementsShorterThan": 75
+  },
+  "controlFlow": {
+    "indentBeginAndEndKeywords": true,
+    "collapseStatementsShorterThan": 78
+  },
+  "cte": {
+    "parenthesisStyle": "expandedSimple",
+    "indentContents": true
+  },
+  "variables": {
+    "alignDataTypesAndValues": false,
+    "placeEqualsSignOnNewLine": true
+  },
+  "joinStatements": {
+    "join": {
+      "indentJoinTable": false
+    },
+    "on": {
+      "keywordAlignment": "indented"
+    }
+  },
+  "insertStatements": {
+    "columns": {
+      "parenthesisStyle": "expandedIndented"
+    },
+    "values": {
+      "parenthesisStyle": "compactIndented",
+      "indentContents": true
+    }
+  },
+  "caseExpressions": {
+    "collapseCaseExpressionsShorterThan": 75
+  },
+  "operators": {
+    "andOr": {
+      "alignment": "toFirstListItem"
+    },
+    "in": {
+      "placeFirstValueOnNewLine": "never",
+      "placeSubsequentValuesOnNewLines": "never",
+      "addSpaceAroundInContents": true
+    }
+  }
+}
