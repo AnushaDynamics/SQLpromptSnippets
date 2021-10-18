@@ -1,0 +1,12 @@
+{
+  "id": "aa6c03e5-67ed-4759-9ff8-a13638d56c5b",
+  "prefix": "Region",
+  "description": "Region",
+  "body": "--$BeginRegion: $NewRegionName$\r\n$PASTE$\r\n--$EndRegion: $NewRegionName$",
+  "placeholders": [
+    {
+      "name": "NewRegionName",
+      "defaultValue": null
+    }
+  ]
+}
