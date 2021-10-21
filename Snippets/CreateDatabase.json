@@ -3,7 +3,7 @@
   "name": "CreateDatabase",
   "prefix": "CreateDatabase",
   "description": "Create Database",
-  "body": "CREATE DATABASE $DatabaseName$\nON PRIMARY -- or use FILEGROUP filegroup_name\n\t( \n\t\tNAME = $DatabaseName$_data,\n\t\tFILENAME = '$DataFileLocationPath$\\$DatabaseName$_Data.mdf'\n\t) --, and repeat as required\nLOG ON\n\t(\n\t\tNAME = $DatabaseName$_log,\n\t\tFILENAME = '$LogFileLocationPath$\\$DatabaseName$_Log.ldf'\n\t) --, and repeat as required\n;\nGO",
+  "body": "CREATE DATABASE $DatabaseName$\nON PRIMARY --PRIMARY FileGroup is Default Group\n\t( \n\t\tNAME = $DatabaseName$_data,\n\t\tFILENAME = '$DataFileLocationPath$\\$DatabaseName$_Data.mdf',\n\t\tSIZE = $DataFileInitialSize_KB$KB,\n\t\tFILEGROWTH = $DataFileGrowthSize_KB$KB\n\t),\n   FILEGROUP $FileGroupName$ --SECONDARY FileGroup will be Created Automatically\n\t( \n\t\tNAME = $DatabaseName$_data2,\n\t\tFILENAME = '$DataFileLocationPath$\\$DatabaseName$_Data2.mdf',\n\t\tSIZE = $DataFileInitialSize_KB$KB,\n\t\tFILEGROWTH = $DataFileGrowthSize_KB$KB\n\t) -- Add Additional Files in FileGroups If Required\nLOG ON\n\t(\n\t\tNAME = $DatabaseName$_log,\n\t\tFILENAME = '$LogFileLocationPath$\\$DatabaseName$_Log.ldf',\n\t\tSIZE = $LogFileInitialSize_KB$KB,\n\t\tFILEGROWTH = $LogFileGrowthSize_KB$KB --(or) FILEGROWTH = 10%\n\t)\n;\nGO",
   "placeholders": [
     {
       "name": "DatabaseName",
@@ -11,11 +11,31 @@
     },
     {
       "name": "DataFileLocationPath",
-      "defaultValue": "C:\\MSSQLserver"
+      "defaultValue": "C:\\MSSQLserver\\DATA"
     },
     {
       "name": "LogFileLocationPath",
-      "defaultValue": "C:\\MSSQLserver"
+      "defaultValue": "C:\\MSSQLserver\\LOG"
+    },
+    {
+      "name": "DataFileInitialSize_KB",
+      "defaultValue": "8192"
+    },
+    {
+      "name": "DataFileGrowthSize_KB",
+      "defaultValue": "2048"
+    },
+    {
+      "name": "FileGroupName",
+      "defaultValue": "SECONDARY"
+    },
+    {
+      "name": "LogFileInitialSize_KB",
+      "defaultValue": "8192"
+    },
+    {
+      "name": "LogFileGrowthSize_KB",
+      "defaultValue": "2048"
     }
   ]
 }
