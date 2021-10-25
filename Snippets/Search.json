@@ -1,0 +1,12 @@
+{
+  "id": "19a23a5f-9b18-4ba8-9122-d6541fd9808b",
+  "prefix": "Search",
+  "description": "Search String In Objects",
+  "body": "DECLARE @SearchPattern NVARCHAR(128) = N'%$string$%';\r\n--\r\nSELECT SCHEMA_NAME(O.schema_id) AS \"Schema\",\r\n\t   O.name AS \"Name\",\r\n\t   O.type AS \"Type\",\r\n\t   '[' + SCHEMA_NAME(O.schema_id) + '].[' + O.name + ']' AS \"FullName\",\r\n\t   OBJECT_DEFINITION(O.object_id) AS \"Source\"\r\nFROM sys.objects AS O\r\nWHERE LOWER(OBJECT_DEFINITION(O.object_id)) LIKE LOWER(@SearchPattern)\r\n\t  AND O.type IN (\t'C',  -- = Check Constraint\r\n\t\t\t\t\t\t'D',  -- = Default (Constraint or Standalone)\r\n\t\t\t\t\t\t'P',  -- = SQL Stored Procedure\r\n\t\t\t\t\t\t'FN', -- = SQL Scalar Function\r\n\t\t\t\t\t\t'R',  -- = Rule\r\n\t\t\t\t\t\t'RF', -- = Replication Filter Procedure\r\n\t\t\t\t\t\t'TR', -- = SQL Trigger (schema-scoped DML trigger, or DDL trigger at either the database or server scope)\r\n\t\t\t\t\t\t'IF', -- = SQL Inline Table-Valued Function\r\n\t\t\t\t\t\t'TF', -- = SQL Table-Valued Function\r\n\t\t\t\t\t\t'V'\r\n\t\t\t\t\t) -- = View\r\nUNION ALL\r\nSELECT SCHEMA_NAME(Q.schema_id) AS \"Schema\",\r\n\t   Q.name AS \"Name\",\r\n\t   'SQ' AS \"Type\",\r\n\t   '[' + SCHEMA_NAME(Q.schema_id) + '].[' + Q.name + ']' AS \"FullName\",\r\n\t   Q.activation_procedure AS \"Source\"\r\nFROM sys.service_queues AS Q\r\nWHERE Q.activation_procedure LIKE LOWER(@SearchPattern)\r\nORDER BY O.type,\r\n\t\t O.name;\r\n",
+  "placeholders": [
+    {
+      "name": "string",
+      "defaultValue": null
+    }
+  ]
+}
