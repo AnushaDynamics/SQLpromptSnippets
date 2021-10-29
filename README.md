@@ -10,25 +10,43 @@
 </blockquote>
 
 <blockquote>
-  <p><b>How to Configure SQL Prompt Snippets.?</b></p>
+  <p><b>How to Clone (or Download) Repo and Configure SQL Prompt Snippets.?</b></p>
   <blockquote>
-    <li>Clone the "SQLpromptSnippets" from GitHub to Local Folder.</li>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For Example: Navigate to Folder "<b>C:\GitHub\SQLpromptSnippets</b>".
-    <li>Now RightClick inside Folder "SQLpromptSnippets" and Select and Click "<b>Git Bash Here</b>".</li>
-    <li>Now Type "<b>git clone https://github.com/ChandraSaiKarthik/SQLpromptSnippets.git</b>" (without quotes).</li>
-    <p>--</p>
-    <li>Open SSMS; In the SSMS Menu Bar, Click <b>SQL Prompt</b> → <b>Options</b>.</li>
+    <p><b>Download Process:</b></p>
     <blockquote>
-    <ol>
-      <li>Click "Snippets" [1] (Sidebar)</li>
-      <li>Click "..." [2]</li>
-      <li>Navigate to the Folder [3] Containing "<b>.sqlpromptsnippet</b>" file extension.</li>
-      &nbsp;&nbsp;&nbsp;&nbsp;For Example: "<b>C:\GitHub\SQLpromptSnippets\Snippets</b>".
-      <li>Click "Select Folder" [4].</li>
-      <li>Click "OK" [5].</li>
-    </ol>
+      <li>Click the link: <b>https://github.com/ChandraSaiKarthik/SQLpromptSnippets/archive/refs/heads/master.zip</b>.</li>
+      <li>Rename the Downloaded Zip File "<b>SQLpromptSnippets-master.zip</b>" to "<b>SQLpromptSnippets.zip</b>".</li>
+      <li>Copy the Zip File "<b>SQLpromptSnippets.zip</b>" to Local Folder and Extract to <b>SQLpromptSnippets</b>".</li>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For Example: Navigate to Folder "<b>C:\GitHub\SQLpromptSnippets</b>".
     </blockquote>
-    <p><img src="https://i.postimg.cc/HLvg794t/SQLprompt-Snippets-Location-Sharing.png" title="SQLpromptSnippetsLocationSharing"/></p>
+  </blockquote>
+  
+  <blockquote>
+    <p><b>Clone Process:</b></p>
+    <blockquote>    
+      <li>Clone the "SQLpromptSnippets" from GitHub to Local Folder.</li>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For Example: Navigate to Folder "<b>C:\GitHub\SQLpromptSnippets</b>".
+      <li>Now RightClick inside Folder "SQLpromptSnippets" and Select and Click "<b>Git Bash Here</b>".</li>
+      <li>Now Type "<b>git clone https://github.com/ChandraSaiKarthik/SQLpromptSnippets.git</b>" (without quotes).</li>
+    </blockquote>
+  </blockquote>
+  
+  <blockquote> 
+    <p><b>Configuration Process:</b></p>
+    <blockquote> 
+      <li>Open SSMS; In the SSMS Menu Bar, Click <b>SQL Prompt</b> → <b>Options</b>.</li>
+      <blockquote>
+      <ol>
+        <li>Click "Snippets" [1] (Sidebar)</li>
+        <li>Click "..." [2]</li>
+        <li>Navigate to the Folder [3] Containing "<b>.sqlpromptsnippet</b>" file extension.</li>
+        &nbsp;&nbsp;&nbsp;&nbsp;For Example: "<b>C:\GitHub\SQLpromptSnippets\Snippets</b>".
+        <li>Click "Select Folder" [4].</li>
+        <li>Click "OK" [5].</li>
+      </ol>
+      </blockquote>
+      <p><img src="https://i.postimg.cc/HLvg794t/SQLprompt-Snippets-Location-Sharing.png" title="SQLpromptSnippetsLocationSharing"/></p>
+    </blockquote>  
     <p>Note: Snippets are stored as XML files with the <b>.sqlpromptsnippet</b> file extension.</p>
     <p><b>Note:</b> From SQLprompt v10.5, Snippet Files are Stored as <b>.json</b> instead of <b>.sqlpromptsnippet</b>.</p>
   </blockquote>
