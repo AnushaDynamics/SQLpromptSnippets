@@ -1,0 +1,24 @@
+{
+  "id": "4791ee5c-8513-40fc-b394-a53368b141d3",
+  "prefix": "GetTableColumnDetails",
+  "description": "Get Table All Column Details",
+  "body": "/* =================================================================================================\r\n-- Server\t\t: LOCAL SERVER\r\n-- Database\t\t: User Database\r\n-- Script\t\t: GetTableColumnDetails\r\n-- Description\t: Get Table Column Details\r\n================================================================================================= */\r\nDECLARE @LinkedServer AS VARCHAR(256) = '$LinkedServer$';\r\nDECLARE @DatabaseName VARCHAR(256) = '$DatabaseName$';\r\nDECLARE @SchemaName VARCHAR(256) = '$SchemaName$';\r\nDECLARE @TableName VARCHAR(256) = '$TableName$';\r\n----\r\nSET NOCOUNT ON;\r\nIF TRIM(@LinkedServer) = '' SET @LinkedServer = NULL;\r\nDECLARE @SQLstring NVARCHAR(MAX) = N'';\r\n--\r\n--$BeginRegion: Method 1\r\nSET @SQLstring = N'SELECT DISTINCT COL.column_id AS \"ColID\",\r\n\t\t\t\tCOL.name AS \"ColumnName\",\r\n\t\t\t\tISC.DATA_TYPE AS \"ColumnType\",\r\n\t\t\t\tISNULL(PKC.Is_PK, 0) AS \"IsPrimaryKeyCol?\",\r\n\t\t\t\tCOL.is_computed AS \"IsComputedCol?\",\r\n\t\t\t\tCOL.is_identity AS \"IsIdentityCol?\"\r\nFROM ' + ISNULL(@LinkedServer + '.', '') + @DatabaseName + N'.sys.columns AS COL\r\nINNER JOIN ' + ISNULL(@LinkedServer + '.', '') + @DatabaseName + N'.sys.tables AS TBL ON TBL.object_id = COL.object_id\r\nINNER JOIN ' + ISNULL(@LinkedServer + '.', '') + @DatabaseName + N'.sys.schemas AS SCH ON SCH.schema_id = TBL.schema_id\r\nINNER JOIN ' + ISNULL(@LinkedServer + '.', '') + @DatabaseName + N'.INFORMATION_SCHEMA.COLUMNS AS ISC ON ISC.TABLE_SCHEMA = SCH.name AND ISC.TABLE_NAME = TBL.name AND ISC.COLUMN_NAME = COL.name\r\nLEFT JOIN (\r\n\t\t\tSELECT IC.object_id, IC.column_id, 1 AS \"Is_PK\"\r\n\t\t\tFROM ' + ISNULL(@LinkedServer + '.', '') + @DatabaseName + N'.sys.index_columns AS IC\r\n\t\t\tINNER JOIN ' + ISNULL(@LinkedServer + '.', '') + @DatabaseName + N'.sys.key_constraints AS KC ON IC.object_id = KC.parent_object_id AND IC.index_id = KC.unique_index_id AND KC.type = ''PK''\r\n\t\t  ) AS PKC ON PKC.column_id = COL.column_id AND PKC.object_id = COL.object_id\r\nWHERE SCH.name = ''' + @SchemaName + N''' AND TBL.name = ''' + @TableName + N'''\r\nORDER BY COL.column_id ASC;';\r\n--PRINT @SQLstring;\r\nEXEC sys.sp_executesql @statement = @SQLstring;\r\n--$EndRegion: Method 1\r\n--\r\n--\r\n--$BeginRegion: Method 2\r\nSET @SQLstring = N'SELECT DISTINCT COL.column_id AS \"ColID\",\r\n\t\t\t\tCOL.name AS \"ColumnName\",\r\n\t\t\t\tISC.DATA_TYPE AS \"ColumnType\",\r\n\t\t\t\tISNULL(PKC.Is_PK, 0) AS \"IsPrimaryKeyCol?\",\r\n\t\t\t\tCOL.is_computed AS \"IsComputedCol?\",\r\n\t\t\t\tCOL.is_identity AS \"IsIdentityCol?\"\r\nFROM sys.columns AS COL\r\nINNER JOIN sys.tables AS TBL ON TBL.object_id = COL.object_id\r\nINNER JOIN sys.schemas AS SCH ON SCH.schema_id = TBL.schema_id\r\nINNER JOIN INFORMATION_SCHEMA.COLUMNS AS ISC ON ISC.TABLE_SCHEMA = SCH.name AND ISC.TABLE_NAME = TBL.name AND ISC.COLUMN_NAME = COL.name\r\nLEFT JOIN (\r\n\t\t\tSELECT IC.object_id, IC.column_id, 1 AS \"Is_PK\"\r\n\t\t\tFROM sys.index_columns AS IC\r\n\t\t\tINNER JOIN sys.key_constraints AS KC ON IC.object_id = KC.parent_object_id AND IC.index_id = KC.unique_index_id AND KC.type = ''''PK''''\r\n\t\t  ) AS PKC ON PKC.column_id = COL.column_id AND PKC.object_id = COL.object_id\r\nWHERE SCH.name = ''''' + @SchemaName + N''''' AND TBL.name = ''''' + @TableName + N'''''\r\nORDER BY COL.column_id ASC;';\r\nSET @SQLstring = N'EXEC ' + ISNULL(@LinkedServer + '.', '') + @DatabaseName + N'.sys.sp_executesql @statement = N''' + @SQLstring + N'''';\r\n--PRINT @SQLstring;\r\nEXEC sys.sp_executesql @statement = @SQLstring;\r\n--$EndRegion: Method 2",
+  "placeholders": [
+    {
+      "name": "LinkedServer",
+      "defaultValue": "LOCALSERVER"
+    },
+    {
+      "name": "DatabaseName",
+      "defaultValue": "AdventureWorks2019"
+    },
+    {
+      "name": "SchemaName",
+      "defaultValue": "Person"
+    },
+    {
+      "name": "TableName",
+      "defaultValue": "BusinessEntityAddress"
+    }
+  ]
+}
