@@ -1,9 +1,8 @@
 {
   "id": "fbbee314-28e6-4994-8c87-d9a7c71230da",
-  "name": "Comment",
   "prefix": "Comment",
-  "description": "Comment Fragment",
-  "body": "/* =================================================================================================\n-- Author\t\t: $USER$\n-- Create Date\t: $DATE$ $TIME$\n-- Server\t\t: $SERVER$\n-- Database\t\t: $DBNAME$\n-- Script\t\t: $ScriptName$\n-- Description\t: $CURSOR$\n-- Usage\t\t:\n-- History\t\t:\n================================================================================================= */\n\n",
+  "description": "Script Comment",
+  "body": "/* =========================================================================================================================================\n-- Author\t\t: $USER$\n-- Create Date\t: $DATE$ $TIME$\n-- Server\t\t: $SERVER$\n-- Database\t\t: $DBNAME$\n-- Script\t\t: $ScriptName$\n-- Description\t:\n-- Usage\t\t:\n-- History\t\t:\n========================================================================================================================================= */\n$CURSOR$",
   "placeholders": [
     {
       "name": "ScriptName",
