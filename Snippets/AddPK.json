@@ -1,0 +1,20 @@
+{
+  "id": "0ab374ec-02b6-4fd4-972c-ed73e2e7f63a",
+  "prefix": "AddPK",
+  "description": "Adding PrimaryKey to a Table",
+  "body": "IF OBJECT_ID('PK_$table_name$_$column_name$', 'PK') IS NOT NULL\r\n\tALTER TABLE $schema_name$.$table_name$ DROP CONSTRAINT PK_$table_name$_$column_name$;\r\nALTER TABLE $schema_name$.$table_name$\r\nADD CONSTRAINT PK_$table_name$_$column_name$ \r\n\tPRIMARY KEY {CLUSTERED | NONCLUSTERED} ($column_name$);\r\nGO",
+  "placeholders": [
+    {
+      "name": "schema_name",
+      "defaultValue": null
+    },
+    {
+      "name": "table_name",
+      "defaultValue": null
+    },
+    {
+      "name": "column_name",
+      "defaultValue": null
+    }
+  ]
+}
