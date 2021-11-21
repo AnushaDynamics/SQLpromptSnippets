@@ -1,0 +1,6 @@
+{
+  "id": "16716b71-bf96-4938-940c-0aa17ff2b72a",
+  "prefix": "mvpOH_CommandLog",
+  "description": "CommandLog (By Ola Hallengren)",
+  "body": "USE master;\r\nGO\r\n\r\n/****** Object:  Table [dbo].[CommandLog] ******/\r\nIF OBJECT_ID('[dbo].[CommandLog]', 'U') IS NOT NULL\r\n\tDROP TABLE dbo.CommandLog;\r\nGO\r\n\r\n/****** Object:  Table [dbo].[CommandLog] ******/\r\nSET ANSI_NULLS ON;\r\nGO\r\n\r\nSET QUOTED_IDENTIFIER ON;\r\nGO\r\n\r\nCREATE TABLE dbo.CommandLog\r\n(\r\n\tID INT IDENTITY(1, 1) NOT NULL,\r\n\tDatabaseName sysname NULL,\r\n\tSchemaName sysname NULL,\r\n\tObjectName sysname NULL,\r\n\tObjectType CHAR(2) NULL,\r\n\tIndexName sysname NULL,\r\n\tIndexType TINYINT NULL,\r\n\tStatisticsName sysname NULL,\r\n\tPartitionNumber INT NULL,\r\n\tExtendedInfo XML NULL,\r\n\tCommand NVARCHAR(MAX) NOT NULL,\r\n\tCommandType NVARCHAR(60) NOT NULL,\r\n\tStartTime DATETIME2(7) NOT NULL,\r\n\tEndTime DATETIME2(7) NULL,\r\n\tErrorNumber INT NULL,\r\n\tErrorMessage NVARCHAR(MAX) NULL,\r\n\tCONSTRAINT PK_CommandLog\r\n\t\tPRIMARY KEY CLUSTERED (ID ASC)\r\n\t\tWITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]\r\n) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY];\r\nGO"
+}
