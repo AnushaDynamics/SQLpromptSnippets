@@ -1,0 +1,6 @@
+{
+  "id": "c17af2fe-3595-4d52-a31a-85d89e8ce67d",
+  "prefix": "mvpYK_Helper_LongPrint",
+  "description": "Helper_LongPrint (By Yildirim Kocdag)",
+  "body": "IF OBJECT_ID('dbo.Helper_LongPrint', 'P') IS NOT NULL\r\n\tDROP PROCEDURE dbo.Helper_LongPrint;\r\nGO\r\n\r\nCREATE PROCEDURE dbo.Helper_LongPrint (@string NVARCHAR(MAX))\r\nAS\r\nBEGIN\r\n\tSET NOCOUNT ON;\r\n\tSET @string = RTRIM(@string);\r\n\t--\r\n\tDECLARE @cr CHAR(1), @lf CHAR(1);\r\n\tSET @cr = CHAR(13); SET @lf = CHAR(10);\r\n\t--\r\n\tDECLARE @len INT,\r\n\t\t@cr_index INT,\r\n\t\t@lf_index INT,\r\n\t\t@crlf_index INT,\r\n\t\t@has_cr_and_lf BIT,\r\n\t\t@left NVARCHAR(4000),\r\n\t\t@reverse NVARCHAR(4000);\r\n\t--\r\n\tSET @len = 4000;\r\n\t--\r\n\tWHILE (LEN(@string) > @len)\r\n\tBEGIN\r\n\t\tSET @left = LEFT(@string, @len);\r\n\t\tSET @reverse = REVERSE(@left);\r\n\t\tSET @cr_index = @len - CHARINDEX(@cr, @reverse) + 1;\r\n\t\tSET @lf_index = @len - CHARINDEX(@lf, @reverse) + 1;\r\n\t\tSET @crlf_index = CASE WHEN @cr_index < @lf_index THEN @cr_index ELSE @lf_index END;\r\n\t\tSET @has_cr_and_lf = CASE WHEN @cr_index < @len AND @lf_index < @len THEN 1 ELSE 0 END;\r\n\t\t--\r\n\t\tPRINT LEFT(@string, @crlf_index - 1);\r\n\t\t--\r\n\t\tSET @string = RIGHT(@string, LEN(@string) - @crlf_index - @has_cr_and_lf);\r\n\tEND;\r\n\t--\r\n\tPRINT @string;\r\nEND;\r\nGO"
+}
