@@ -1,9 +1,8 @@
 {
   "id": "24ee6fb3-d2d2-494e-b1a1-e2e12e9fe191",
-  "name": "CreateDatabase",
   "prefix": "CreateDatabase",
   "description": "Create Database",
-  "body": "CREATE DATABASE $DatabaseName$\nON PRIMARY --PRIMARY FileGroup is Default Group\n\t( \n\t\tNAME = $DatabaseName$_data,\n\t\tFILENAME = '$DataFileLocationPath$\\$DatabaseName$_Data.mdf',\n\t\tSIZE = $DataFileInitialSize_KB$KB,\n\t\tFILEGROWTH = $DataFileGrowthSize_KB$KB\n\t),\n   FILEGROUP $FileGroupName$ --SECONDARY FileGroup will be Created Automatically\n\t( \n\t\tNAME = $DatabaseName$_data2,\n\t\tFILENAME = '$DataFileLocationPath$\\$DatabaseName$_Data2.mdf',\n\t\tSIZE = $DataFileInitialSize_KB$KB,\n\t\tFILEGROWTH = $DataFileGrowthSize_KB$KB\n\t) -- Add Additional Files in FileGroups If Required\nLOG ON\n\t(\n\t\tNAME = $DatabaseName$_log,\n\t\tFILENAME = '$LogFileLocationPath$\\$DatabaseName$_Log.ldf',\n\t\tSIZE = $LogFileInitialSize_KB$KB,\n\t\tFILEGROWTH = $LogFileGrowthSize_KB$KB --(or) FILEGROWTH = 10%\n\t)\n;\nGO",
+  "body": "EXEC sys.xp_cmdshell @command = 'mkdir \"C:\\SQL\\MSSQL\\DATA\\\"';\nEXEC sys.xp_cmdshell @command = 'mkdir \"C:\\SQL\\MSSQL\\LOG\\\"';\nGO\n--\nCREATE DATABASE $DatabaseName$\nON PRIMARY --PRIMARY FileGroup is Default Group\n\t( \n\t\tNAME = $DatabaseName$_data,\n\t\tFILENAME = '$DataFileLocationPath$\\$DatabaseName$_data.mdf',\n\t\tSIZE = $DataFileInitialSize_KB$KB,\n\t\tFILEGROWTH = $DataFileGrowthSize_KB$KB\n\t),\n   FILEGROUP $FileGroupName$ --SECONDARY FileGroup will be Created Automatically\n\t( \n\t\tNAME = $DatabaseName$_data2,\n\t\tFILENAME = '$DataFileLocationPath$\\$DatabaseName$_data2.mdf',\n\t\tSIZE = $DataFileInitialSize_KB$KB,\n\t\tFILEGROWTH = $DataFileGrowthSize_KB$KB\n\t) -- Add Additional Files in FileGroups If Required\nLOG ON\n\t(\n\t\tNAME = $DatabaseName$_log,\n\t\tFILENAME = '$LogFileLocationPath$\\$DatabaseName$_log.ldf',\n\t\tSIZE = $LogFileInitialSize_KB$KB,\n\t\tFILEGROWTH = $LogFileGrowthSize_KB$KB --(or) FILEGROWTH = 10%\n\t)\n;\nGO",
   "placeholders": [
     {
       "name": "DatabaseName",
@@ -11,11 +10,11 @@
     },
     {
       "name": "DataFileLocationPath",
-      "defaultValue": "C:\\MSSQLserver\\DATA"
+      "defaultValue": "C:\\SQL\\MSSQL\\DATA"
     },
     {
       "name": "LogFileLocationPath",
-      "defaultValue": "C:\\MSSQLserver\\LOG"
+      "defaultValue": "C:\\SQL\\MSSQL\\LOG"
     },
     {
       "name": "DataFileInitialSize_KB",
@@ -23,7 +22,7 @@
     },
     {
       "name": "DataFileGrowthSize_KB",
-      "defaultValue": "2048"
+      "defaultValue": "1024"
     },
     {
       "name": "FileGroupName",
@@ -31,7 +30,7 @@
     },
     {
       "name": "LogFileInitialSize_KB",
-      "defaultValue": "8192"
+      "defaultValue": "16384"
     },
     {
       "name": "LogFileGrowthSize_KB",
