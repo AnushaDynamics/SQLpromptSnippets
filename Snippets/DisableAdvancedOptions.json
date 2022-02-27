@@ -1,6 +1,0 @@
-{
-  "id": "5343c742-87e9-4488-9d2b-af6730857ec4",
-  "prefix": "DisableAdvancedOptions",
-  "description": "Disabling Advanced Options",
-  "body": "EXEC sys.sp_configure 'show advanced options', '0';\r\nRECONFIGURE;"
-}
