@@ -1,6 +1,16 @@
 {
   "id": "06c61315-3060-4d71-b426-fa5461e25512",
   "prefix": "GetRowCountOnly",
-  "description": "Get Row Count for Each Table",
-  "body": "DECLARE @SCHname VARCHAR(128) = NULL; --Optional\r\nDECLARE @TBLname VARCHAR(128) = NULL; --Optional\r\n--\r\nSELECT OBJECT_SCHEMA_NAME(PS.object_id) AS \"SchemaName\", \r\n\t   OBJECT_NAME(PS.object_id) AS \"TableName\", \r\n\t   SUM(CASE WHEN PS.index_id < 2 THEN PS.row_count ELSE 0 END) AS \"Rows\"\r\nFROM sys.dm_db_partition_stats AS PS\r\nWHERE OBJECT_SCHEMA_NAME(PS.object_id) <> 'sys'\t\t\t--To Avoid \"sys\" schema\r\n\tAND OBJECTPROPERTY(PS.object_id, 'IsUserTable') = 1\t--To Consider Only User Created Tables\r\n\tAND (OBJECT_SCHEMA_NAME(PS.object_id) = @SCHname OR @SCHname IS NULL)\r\n\tAND (OBJECT_NAME(PS.object_id) = @TBLname OR @TBLname IS NULL)\r\nGROUP BY PS.object_id\r\n--HAVING SUM(CASE WHEN PS.index_id < 2 THEN PS.row_count ELSE 0 END) > 0\r\nORDER BY [Rows] DESC, SchemaName ASC, TableName ASC;"
+  "description": "Get Row Count and Size for Each Table",
+  "body": "DECLARE @SCHname VARCHAR(128) = $SCHname$; --Optional\r\nDECLARE @TBLname VARCHAR(128) = $TBLname$; --Optional\r\n--\r\nSELECT OBJECT_SCHEMA_NAME(P.object_id) AS \"SchemaName\",\r\n\t   OBJECT_NAME(P.object_id) AS \"TableName\",\r\n\t   P.rows AS \"Rows\",\r\n\t   CAST(ROUND(((SUM(AU.total_pages) * 8) / 1024.00), 2) AS NUMERIC(36, 2)) AS \"Reserved(MB)\",\r\n\t   CAST(ROUND(((SUM(AU.used_pages) * 8) / 1024.00), 2) AS NUMERIC(36, 2)) AS \"Used(MB)\",\r\n\t   CAST(ROUND(((SUM(AU.total_pages) - SUM(AU.used_pages)) * 8) / 1024.00, 2) AS NUMERIC(36, 2)) AS \"UnUsed(MB)\"\r\nFROM sys.partitions AS P\r\nINNER JOIN sys.allocation_units AS AU\r\n\tON P.partition_id = AU.container_id\r\nWHERE OBJECT_SCHEMA_NAME(P.object_id) <> 'sys' --To Avoid \"sys\" schema\r\n\t  AND OBJECTPROPERTY(P.object_id, 'IsUserTable') = 1 --To Consider Only User Created Tables\r\n\t  AND (OBJECT_SCHEMA_NAME(P.object_id) = @SCHname OR @SCHname IS NULL)\r\n\t  AND (OBJECT_NAME(P.object_id) = @TBLname OR @TBLname IS NULL)\r\nGROUP BY P.object_id, P.rows\r\n--HAVING P.rows > 0 --UnComment To Hide Empty Tables\r\nORDER BY SUM(AU.total_pages) DESC, P.rows DESC;",
+  "placeholders": [
+    {
+      "name": "SCHname",
+      "defaultValue": "NULL"
+    },
+    {
+      "name": "TBLname",
+      "defaultValue": "NULL"
+    }
+  ]
 }
