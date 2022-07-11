@@ -1,0 +1,6 @@
+{
+  "id": "e19b2eb8-da70-48e6-ac94-9f9bdfd8565e",
+  "prefix": "GeneralQueries",
+  "description": "General Queries which are Useful",
+  "body": "/* =============================================================================================================================================================\r\nTo Generate Series of Dates Between Start Date and End Date\r\nUsed w3schools.dbo.orders Table (We can also Declare @MinDate and @MaxDate and Use Them)\r\n============================================================================================================================================================= */\r\n;WITH _CTE_MinMaxDates\r\nAS (\r\n\t   SELECT MIN(OrderDate) AS \"MinDate\",\r\n\t\t\t  MAX(OrderDate) AS \"MaxDate\"\r\n\t   FROM dbo.Orders\r\n   ),\r\n\t  _CTE_GetDates\r\nAS (\r\n\t   SELECT C1.MinDate AS \"Dates\"\r\n\t   FROM _CTE_MinMaxDates AS C1\r\n\t   UNION ALL\r\n\t   SELECT DATEADD(DAY, 1, C2.Dates)\r\n\t   FROM _CTE_GetDates AS C2\r\n\t   WHERE DATEADD(DAY, 1, C2.Dates) <= ( SELECT MaxDate FROM _CTE_MinMaxDates )\r\n   )\r\nSELECT _CTE_GetDates.Dates\r\nFROM _CTE_GetDates\r\nOPTION (MAXRECURSION 0);"
+}
