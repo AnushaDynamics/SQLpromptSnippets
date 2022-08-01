@@ -1,0 +1,6 @@
+{
+  "id": "667cfe86-47b5-49ae-9627-942721fca947",
+  "prefix": "Example_Pivot",
+  "description": "Pivot Query Examples",
+  "body": "SELECT DB_NAME(MF.database_id) AS \"ID\",\r\n\t   MF.type_desc AS \"Att_Id\",\r\n\t   MF.name AS \"Att_Value\"\r\nFROM sys.master_files AS MF\r\nWHERE MF.database_id > 4;\r\n\r\nSELECT ID AS \"DBname\",\r\n\t   \"ROWS\" AS \"DataFileName\",\r\n\t   \"LOG\" AS \"LogFileName\"\r\nFROM (\r\n\t\t SELECT DB_NAME(MF.database_id) AS \"ID\",\r\n\t\t\t\tMF.type_desc AS \"Att_Id\",\r\n\t\t\t\tMF.name AS \"Att_Value\"\r\n\t\t FROM sys.master_files AS MF\r\n\t\t WHERE MF.database_id > 4\r\n\t ) AS SOURCE\r\nPIVOT (\r\n\t\t  MAX(Att_Value)\r\n\t\t  FOR Att_Id IN (\"ROWS\", \"LOG\")\r\n\t  ) AS TARGET;"
+}
