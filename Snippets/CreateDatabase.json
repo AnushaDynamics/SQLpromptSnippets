@@ -2,39 +2,15 @@
   "id": "24ee6fb3-d2d2-494e-b1a1-e2e12e9fe191",
   "prefix": "CreateDatabase",
   "description": "Create Database",
-  "body": "USE master;\nGO\n----\n--$BeginRegion: Enable CMDshell and Create Folders\nEXEC sys.sp_configure @configname = 'show advanced options', @configvalue = '1'; RECONFIGURE;\nEXEC sys.sp_configure @configname = 'xp_cmdshell', @configvalue = '1'; RECONFIGURE;\nEXEC sys.sp_configure @configname = 'show advanced options', @configvalue = '0'; RECONFIGURE;\nEXEC sys.xp_cmdshell @command = 'mkdir \"C:\\SQL\\MSSQL\\DATA\\\"';\nEXEC sys.xp_cmdshell @command = 'mkdir \"C:\\SQL\\MSSQL\\LOG\\\"';\nGO\n--$EndRegion: Enable CMDshell and Create Folders\n--\nCREATE DATABASE $DatabaseName$\nON PRIMARY --PRIMARY FileGroup is Default Group\n\t( \n\t\tNAME = $DatabaseName$_data,\n\t\tFILENAME = '$DataFileLocationPath$\\$DatabaseName$_data.mdf',\n\t\tSIZE = $DataFileInitialSize_KB$KB,\n\t\tFILEGROWTH = $DataFileGrowthSize_KB$KB\n\t),\n   FILEGROUP $FileGroupName$ --SECONDARY FileGroup will be Created Automatically\n\t( \n\t\tNAME = $DatabaseName$_data2,\n\t\tFILENAME = '$DataFileLocationPath$\\$DatabaseName$_data2.mdf',\n\t\tSIZE = $DataFileInitialSize_KB$KB,\n\t\tFILEGROWTH = $DataFileGrowthSize_KB$KB\n\t) -- Add Additional Files in FileGroups If Required\nLOG ON\n\t(\n\t\tNAME = $DatabaseName$_log,\n\t\tFILENAME = '$LogFileLocationPath$\\$DatabaseName$_log.ldf',\n\t\tSIZE = $LogFileInitialSize_KB$KB,\n\t\tFILEGROWTH = $LogFileGrowthSize_KB$KB --(or) FILEGROWTH = 10%\n\t)\n;\nGO",
+  "body": "/* =============================================================================================================================================================\n-- Script\t\t: CreateDatabase\n-- Description\t: Create Database with 3 Datafiles if required.\n-- Usage\t\t: Database will be Created at \"C:\\SQL\\MSSQL\\\"SQLversion\"\\[DATA|LOG]\\\"\n--$BeginRegion: Enable cmdshell\n\tEXEC sys.sp_configure @configname = 'show advanced options', @configvalue = '1'; RECONFIGURE;\n\tEXEC sys.sp_configure @configname = 'xp_cmdshell', @configvalue = '1'; RECONFIGURE;\n\tEXEC sys.sp_configure @configname = 'show advanced options', @configvalue = '0'; RECONFIGURE;\n--$EndRegion: Enable cmdshell\n============================================================================================================================================================= */\nUSE master;\nGO\n--\nDECLARE @DBname VARCHAR(128) = '$DatabaseName$'; --Max Characters Allowed for DBname or DBfilename is 128\nDECLARE @ReqSecondaryFile BIT = 1; -- 1 = Included (Default) | 0 = Excluded => SECONDARY FileGroup and 2nd DataFile will be mapped to this SECONDARY FileGroup\nDECLARE @ReqTertiaryFile BIT = 1; -- 1 = Included (Default) | 0 = Excluded => TERTIARY FileGroup and 3rd DataFile will be mapped to this TERTIARY FileGroup\n--\nDECLARE @EXEC BIT = $1$; -- 1 = EXEC (Default) | 0 = PRINT the Statements without Executing\n/* ===== ** DO NOT CHANGE CODE BELOW FROM HERE ** =========================================================================================================== */\nDECLARE @SQLcmd NVARCHAR(4000);\n--\nSET NOCOUNT ON;\nIF @EXEC = 0 PRINT 'SET NOCOUNT ON;';\n--$BeginRegion: Kill All Sessions Related to @DBname and Drop Database\nSET @SQLcmd = --\nN'IF EXISTS (SELECT name FROM sys.databases WHERE name = ''' + @DBname + ''')\nBEGIN\n\tPRINT ''Database: \"' + @DBname + '\" Drop Process Started at '' + CONVERT(VARCHAR(32), GETDATE(), 126);\n\tDECLARE @KillSPIDs NVARCHAR(MAX) = N'''';\n\tSELECT @KillSPIDs = @KillSPIDs + CHAR(10) + N''Kill '' + CONVERT(VARCHAR(8), spid) + N'';''\n\tFROM master.sys.sysprocesses -- Deprecated View\n\tWHERE spid > 50 AND spid <> @@SPId AND dbid = DB_ID(''' + @DBname + ''');\n\t--PRINT @KillSPIDs\n\tEXEC sys.sp_executesql @command = @KillSPIDs;\n\t--\n\tALTER DATABASE [' + @DBname + '] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;\n\tDROP DATABASE [' + @DBname + '];\n\tPRINT ''Database: \"' + @DBname + '\" Dropped Successfully at '' + CONVERT(VARCHAR(32), GETDATE(), 126);\nEND;\nELSE \n\tPRINT ''Database: \"' + @DBname + '\" DoesNot Exists.!'';';\nIF @EXEC = 1 EXEC sys.sp_executesql @command = @SQLcmd; ELSE PRINT @SQLcmd;\n--$EndRegion: Kill All Sessions Related to @DBname and Drop Database\n--\n--\n--$BeginRegion: Enable CMDshell and Create Folders\nIF @EXEC = 0 PRINT '';\nSET @SQLcmd = N'mkdir \"C:\\SQL\\MSSQL\\' + CAST(SERVERPROPERTY('ProductVersion') AS VARCHAR(4)) + N'\\DATA\\\"';\nSET @SQLcmd = N'EXEC sys.xp_cmdshell @command = ''' + @SQLcmd + N''';';\nIF @EXEC = 1 EXEC sys.sp_executesql @command = @SQLcmd; ELSE PRINT @SQLcmd;\n--\nSET @SQLcmd = N'mkdir \"C:\\SQL\\MSSQL\\' + CAST(SERVERPROPERTY('ProductVersion') AS VARCHAR(4)) + N'\\LOG\\\"';\nSET @SQLcmd = N'EXEC sys.xp_cmdshell @command = ''' + @SQLcmd + N''';';\nIF @EXEC = 1 EXEC sys.sp_executesql @command = @SQLcmd; ELSE PRINT @SQLcmd;\n--$EndRegion: Enable CMDshell and Create Folders\n--\n--\n--$BeginRegion: Create Database\nDECLARE @PrimaryDataFile NVARCHAR(256) = N'C:\\SQL\\MSSQL\\' + CAST(SERVERPROPERTY('ProductVersion') AS VARCHAR(4)) + N'\\DATA\\' + @DBname + '_data.mdf';\nDECLARE @SecondaryDataFile NVARCHAR(256) = N'C:\\SQL\\MSSQL\\' + CAST(SERVERPROPERTY('ProductVersion') AS VARCHAR(4)) + N'\\DATA\\' + @DBname + '_data2.ndf';\nDECLARE @TertiaryDataFile NVARCHAR(256) = N'C:\\SQL\\MSSQL\\' + CAST(SERVERPROPERTY('ProductVersion') AS VARCHAR(4)) + N'\\DATA\\' + @DBname + '_data3.ndf';\nDECLARE @LogFile NVARCHAR(256) = N'C:\\SQL\\MSSQL\\' + CAST(SERVERPROPERTY('ProductVersion') AS VARCHAR(4)) + N'\\LOG\\' + @DBname + '_log.ldf';\n--\nIF @EXEC = 0 PRINT '';\nSET @SQLcmd = --\nN'CREATE DATABASE [' + @DBname + ']' +\nCHAR(10) + 'ON PRIMARY --PRIMARY FileGroup is Default Group' +\nCHAR(10) + CHAR(9) + '( NAME = ' + @DBname + '_data, FILENAME = ''' + @PrimaryDataFile + ''', SIZE = 8192KB, FILEGROWTH = 1024KB )' + \nCASE WHEN @ReqSecondaryFile = 1 THEN\nCHAR(10) + ',FILEGROUP SECONDARY --SECONDARY FileGroup will be Created Automatically' +\nCHAR(10) + CHAR(9) + '( NAME = ' + @DBname + '_data2, FILENAME = ''' + @SecondaryDataFile + ''', SIZE = 8192KB, FILEGROWTH = 1024KB )' ELSE '' END +\nCASE WHEN @ReqTertiaryFile = 1 THEN\nCHAR(10) + ',FILEGROUP TERTIARY --TERTIARY FileGroup will be Created Automatically' +\nCHAR(10) + CHAR(9) + '( NAME = ' + @DBname + '_data3, FILENAME = ''' + @TertiaryDataFile + ''', SIZE = 8192KB, FILEGROWTH = 1024KB )' ELSE '' END +\nCHAR(10) + 'LOG ON' +\nCHAR(10) + CHAR(9) + '( NAME = ' + @DBname + '_log, FILENAME = ''' + @LogFile + ''', SIZE = 16384KB, FILEGROWTH = 2048KB )\n;';\nSET @SQLcmd = @SQLcmd + CHAR(10) + N'PRINT ''Database: \"' + @DBname + '\" Created Successfully at '' + CONVERT(VARCHAR(32), GETDATE(), 126);';\nIF @EXEC = 1 EXEC sys.sp_executesql @command = @SQLcmd; ELSE PRINT @SQLcmd;\n--$EndRegion: Create Database",
   "placeholders": [
     {
       "name": "DatabaseName",
-      "defaultValue": ""
+      "defaultValue": null
     },
     {
-      "name": "DataFileLocationPath",
-      "defaultValue": "C:\\SQL\\MSSQL\\DATA"
-    },
-    {
-      "name": "LogFileLocationPath",
-      "defaultValue": "C:\\SQL\\MSSQL\\LOG"
-    },
-    {
-      "name": "DataFileInitialSize_KB",
-      "defaultValue": "8192"
-    },
-    {
-      "name": "DataFileGrowthSize_KB",
-      "defaultValue": "1024"
-    },
-    {
-      "name": "FileGroupName",
-      "defaultValue": "SECONDARY"
-    },
-    {
-      "name": "LogFileInitialSize_KB",
-      "defaultValue": "16384"
-    },
-    {
-      "name": "LogFileGrowthSize_KB",
-      "defaultValue": "2048"
+      "name": "1",
+      "defaultValue": "1"
     }
   ]
 }
