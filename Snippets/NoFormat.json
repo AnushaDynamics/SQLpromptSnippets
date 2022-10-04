@@ -1,0 +1,6 @@
+{
+  "id": "dd854302-8201-4ff9-8bb1-46b11e3f9706",
+  "prefix": "NoFormat",
+  "description": "SQL Prompt Code Formatting Will Not Happen Between OFF and ON Section",
+  "body": "--SQL Prompt Formatting Off\r\n$PASTE$\r\n--SQL Prompt Formatting On"
+}
