@@ -1,0 +1,20 @@
+{
+  "id": "cb783c01-f0cb-40fe-8717-fcc6cd36f808",
+  "prefix": "ConfigureLinkedServer",
+  "description": "Configure Linked Server and Options for Data Access",
+  "body": "/* =============================================================================================================================================================\r\n-- Database\t\t: master\r\n-- Script\t\t: ConfigureLinkedServer\r\n-- Description\t: \r\n-- Usage\t\t: \r\n-- History\t\t: \r\n-- Refer Links\t: https://www.sqlshack.com/how-to-create-and-configure-a-linked-server-in-sql-server-management-studio/\r\n============================================================================================================================================================= */\r\nUSE master;\r\nGO\r\nEXEC dbo.sp_addlinkedserver @server=N'$InstanceName$', @srvproduct=N'SQL Server';\r\nGO\r\nEXEC dbo.sp_serveroption @server=N'$InstanceName$', @optname=N'collation compatible', @optvalue=N'false';\r\nGO\r\nEXEC dbo.sp_serveroption @server=N'$InstanceName$', @optname=N'data access', @optvalue=N'true';\r\nGO\r\nEXEC dbo.sp_serveroption @server=N'$InstanceName$', @optname=N'dist', @optvalue=N'false';\r\nGO\r\nEXEC dbo.sp_serveroption @server=N'$InstanceName$', @optname=N'pub', @optvalue=N'false';\r\nGO\r\nEXEC dbo.sp_serveroption @server=N'$InstanceName$', @optname=N'rpc', @optvalue=N'true';\r\nGO\r\nEXEC dbo.sp_serveroption @server=N'$InstanceName$', @optname=N'rpc out', @optvalue=N'true';\r\nGO\r\nEXEC dbo.sp_serveroption @server=N'$InstanceName$', @optname=N'sub', @optvalue=N'false';\r\nGO\r\nEXEC dbo.sp_serveroption @server=N'$InstanceName$', @optname=N'connect timeout', @optvalue=N'0';\r\nGO\r\nEXEC dbo.sp_serveroption @server=N'$InstanceName$', @optname=N'collation name', @optvalue=NULL;\r\nGO\r\nEXEC dbo.sp_serveroption @server=N'$InstanceName$', @optname=N'lazy schema validation', @optvalue=N'false';\r\nGO\r\nEXEC dbo.sp_serveroption @server=N'$InstanceName$', @optname=N'query timeout', @optvalue=N'0';\r\nGO\r\nEXEC dbo.sp_serveroption @server=N'$InstanceName$', @optname=N'use remote collation', @optvalue=N'true';\r\nGO\r\nEXEC dbo.sp_serveroption @server=N'$InstanceName$', @optname=N'remote proc transaction promotion', @optvalue=N'true';\r\nGO\r\nUSE master;\r\nGO\r\nEXEC dbo.sp_addlinkedsrvlogin @rmtsrvname=N'$InstanceName$', @locallogin=NULL, @useself=N'False', @rmtuser=N'$Login$', @rmtpassword=N'$Password$';\r\nGO",
+  "placeholders": [
+    {
+      "name": "InstanceName",
+      "defaultValue": "LocalHost\\SQL2012"
+    },
+    {
+      "name": "Login",
+      "defaultValue": "sa"
+    },
+    {
+      "name": "Password",
+      "defaultValue": "p@ssw0rd1"
+    }
+  ]
+}
