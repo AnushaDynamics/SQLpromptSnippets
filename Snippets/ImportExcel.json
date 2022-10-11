@@ -1,0 +1,16 @@
+{
+  "id": "2e2cbfb6-0318-4829-a92d-a967a7fe3e31",
+  "prefix": "ImportExcel",
+  "description": "Import Excel w.r.to Sheets using OPENROWSET",
+  "body": "SELECT *\r\nFROM\r\nOPENROWSET(\r\n\t\t\t'Microsoft.ACE.OLEDB.12.0',\r\n\t\t\t'EXCEL 12.0 XML; HDR=YES; DATABASE=$FilePath_FileName$', --DoNot Add Any Additional Characters like \" even if Path or Name has spaces.\r\n\t\t\t'SELECT * FROM [$SheetName$$]'\r\n\t\t  );",
+  "placeholders": [
+    {
+      "name": "FilePath_FileName",
+      "defaultValue": "C:\\SQL\\Excel Files\\Test Import.xlsx"
+    },
+    {
+      "name": "SheetName",
+      "defaultValue": "Sheet1"
+    }
+  ]
+}
