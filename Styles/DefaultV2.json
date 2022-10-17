@@ -56,7 +56,6 @@
       "indentJoinTable": false
     },
     "on": {
-      "placeOnNewLine": false,
       "keywordAlignment": "indented"
     }
   },

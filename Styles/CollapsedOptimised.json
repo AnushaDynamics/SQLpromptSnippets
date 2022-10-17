@@ -1,10 +1,10 @@
 {
   "metadata": {
     "id": "caea2b8a-a526-4cfb-8c14-c736ff5aaa6f",
-    "name": "CollapsedV2"
+    "name": "CollapsedOptimised"
   },
   "whitespace": {
-    "spacesOrTabs": "tabs",
+    "spacesOrTabs": "tabsIfPossible",
     "wrapLongLines": false,
     "newLines": {
       "preserveExistingEmptyLinesBetweenStatements": false,
@@ -37,12 +37,11 @@
     "collapseSubqueriesShorterThan": 75
   },
   "ddl": {
-    "placeFirstProcedureParameterOnNewLine": "never",
+    "placeFirstProcedureParameterOnNewLine": "always",
     "collapseShortStatements": true,
     "collapseStatementsShorterThan": 75
   },
   "controlFlow": {
-    "placeBeginAndEndOnNewLine": false,
     "collapseShortStatements": true,
     "collapseStatementsShorterThan": 78
   },
