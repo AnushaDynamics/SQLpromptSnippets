@@ -1,6 +1,0 @@
-{
-  "id": "d825bbfc-5bc0-4bba-a68d-5502bd4b7df0",
-  "prefix": "EnableCMDshell",
-  "description": "Enable xp_CMDshell",
-  "body": "USE master;\r\nGO\r\n\r\n-- To Turn ON Advanced Options\r\nEXEC sys.sp_configure @configname = 'show advanced options', @configvalue = '1';\r\nRECONFIGURE;\r\n\r\n-- To Enable xp_cmdshell\r\nEXEC sys.sp_configure @configname = 'xp_cmdshell', @configvalue = '1';\r\nRECONFIGURE;\r\n\r\n-- To Turn OFF Advanced Options\r\nEXEC sys.sp_configure @configname = 'show advanced options', @configvalue = '0';\r\nRECONFIGURE;"
-}
