@@ -1,0 +1,28 @@
+{
+  "id": "60d4ed64-ebe1-477e-9d98-9c7d43ae71e4",
+  "prefix": "ConcatString_Stuff_CSV",
+  "description": "Concatenate Column Values Into a Comma Separated String (STUFF-CSV)",
+  "body": "SELECT STUFF(\n\t\t\t\t((SELECT ', ' + $table_alias$.$column_name$\n\t\t\t\tFROM $schema_name$.$table_name$ AS \"$table_alias$\"\n\t\t\t\tFOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)')), -- CSV Expression will Append to Initial Expression\n\t\t\t\t1, -- Initial Expression Start Position\n\t\t\t\t2, -- Replacement Length\n\t\t\t\t'' -- Initial Expression\n\t\t\t) AS \"$column_alias$\";\n\n/* ===== ** Examples ** ================================================================================================================= */\n--$BeginRegion: Normal Stuff Function\n----> Slow and Costly Due to Type Conversion => ** Performance Impact **\nSELECT C.CategoryName,\n\t   STUFF((\n\t\t\t\t SELECT ', ', + P.ProductName\n\t\t\t\t FROM dbo.Products AS P\n\t\t\t\t WHERE P.CategoryID = C.CategoryID\n\t\t\t\t FOR XML PATH(''), TYPE\n\t\t\t ).value('.', 'NVARCHAR(MAX)'), 1, 1, '') AS \"ProductsList\"\nFROM dbo.Categories AS C;\nGO\n--$EndRegion: Normal Stuff Function\n\n--\n--$BeginRegion: Alternative to Normal Stuff Function\n----> Faster But Applicable from SQL 2017 Only => ** Performance Improvement **\nSELECT C.CategoryName,\n\t   STRING_AGG(ISNULL(P.ProductName, 'N/A'), ',') AS \"ProductsList\"\nFROM dbo.Products AS P\nINNER JOIN dbo.Categories AS C\n\tON C.CategoryID = P.CategoryID\nGROUP BY C.CategoryName;\nGO\n--$EndRegion: Alternative to Normal Stuff Function\n\n--\n--$BeginRegion: Similar to Normal Stuff Function\n----> Very Fast Compared to All Above and Less Costly => ** Performance Improvement **\nSELECT C.CategoryName,\n\t   LTRIM(REPLACE(REPLACE(STUFF((\n\t\t\t\t\t\t\t\t\t   SELECT ', ', + P.ProductName AS \"xRef\" --Dummy ColumnName\n\t\t\t\t\t\t\t\t\t   FROM dbo.Products AS P\n\t\t\t\t\t\t\t\t\t   WHERE P.CategoryID = C.CategoryID\n\t\t\t\t\t\t\t\t\t   FOR XML PATH('')\n\t\t\t\t\t\t\t\t   ), 1, 1, ''), '</', '<'), '<xRef>', '')) AS \"ProductsList\"\nFROM dbo.Categories AS C;\nGO\n--$EndRegion: Similar to Normal Stuff Function\n\n--\n--$BeginRegion: CSV String Formation for Assigning to @Variables Using FOR XML PATH\nDECLARE @CSVstring VARCHAR(MAX);\n\nSET @CSVstring = (\n\t\t\t\t\t SELECT P.ProductName + ', ' --CHAR Columns are best suited in this Procedure.\n\t\t\t\t\t FROM dbo.Products AS P\n\t\t\t\t\t INNER JOIN dbo.Categories AS C ON C.CategoryID = P.CategoryID\n\t\t\t\t\t WHERE C.CategoryID = 1\n\t\t\t\t\t FOR XML PATH('')\n\t\t\t\t );\n\nSELECT SUBSTRING(@CSVstring, 0, LEN(@CSVstring));\nGO\n--$EndRegion: CSV String Formation for Assigning to @Variables Using FOR XML PATH\n\n--\n--$BeginRegion: CSV String Formation for Assigning to @Variables Using COALESCE\nDECLARE @CSVstring VARCHAR(MAX);\n\nSELECT @CSVstring = COALESCE(@CSVstring + ', ', '') + P.ProductName\nFROM dbo.Products AS P\nINNER JOIN dbo.Categories AS C\n\tON C.CategoryID = P.CategoryID\nWHERE C.CategoryID = 1;\n\nSELECT @CSVstring;\nGO\n--$EndRegion: CSV String Formation for Assigning to @Variables Using COALESCE\n\n--\n--$BeginRegion: CSV String Formation for Assigning to @Variables WithOut Using COALESCE\nDECLARE @CSVstring VARCHAR(MAX);\nSET @CSVstring = '';\n\nSELECT @CSVstring = CONCAT(@CSVstring, P.ProductName, ', ') --SELECT @CSVstring = @CSVstring + P.ProductName + ', '\nFROM dbo.Products AS P\nINNER JOIN dbo.Categories AS C\n\tON C.CategoryID = P.CategoryID\nWHERE C.CategoryID = 1;\nSELECT SUBSTRING(@CSVstring, 0, LEN(@CSVstring)); --Trims Last \",\" Character\nGO\n--$EndRegion: CSV String Formation for Assigning to @Variables WithOut Using COALESCE",
+  "placeholders": [
+    {
+      "name": "table_alias",
+      "defaultValue": "T"
+    },
+    {
+      "name": "column_name",
+      "defaultValue": ""
+    },
+    {
+      "name": "schema_name",
+      "defaultValue": "dbo"
+    },
+    {
+      "name": "table_name",
+      "defaultValue": ""
+    },
+    {
+      "name": "column_alias",
+      "defaultValue": ""
+    }
+  ]
+}
