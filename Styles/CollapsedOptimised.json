@@ -55,7 +55,6 @@
   },
   "joinStatements": {
     "join": {
-      "keywordAlignment": "toTable",
       "indentJoinTable": false
     },
     "on": {
