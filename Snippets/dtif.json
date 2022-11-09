@@ -1,0 +1,6 @@
+{
+  "id": "f379ba9b-25b8-4c2f-aa64-81fa2de6ebc1",
+  "prefix": "dtif",
+  "description": "Drop Table If Exists",
+  "body": "DROP TABLE IF EXISTS $CURSOR$"
+}
